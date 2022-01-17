@@ -11,9 +11,9 @@ const db = mysql.createConnection(
     host: process.env.DB_HOST,
     username: process.env.DB_USER,
     password: process.env.DB_PASS,
-    database: 'trackerList_db'
+    database: 'employee_db'
   },
-  console.log(`Connected to the database.`)
+  console.log(`Connected to the employee database.`)
 );
 
 app.use(express.urlencoded({extended: false}));
