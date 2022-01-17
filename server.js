@@ -23,7 +23,7 @@ const employeeTracker = () => {
       }
     )
     .then(function (response) {
-      switch (response) {
+      switch (response.generalMenu) {
         case 'View All Employees':
           db.query('SELECT * FROM employees', function (err, results) {
             console.table(results);
@@ -46,6 +46,17 @@ const employeeTracker = () => {
           });
           break;
         case 'Add Department':
+          inquirer
+            .prompt(
+              {
+                type: 'input',
+                name: 'departmentName',
+                message: 'What is the new department called?'
+              }
+            )
+            .then(function (response) {
+              db.query(`INSERT INTO departments (name) VALUES ('${response.departmentName}')`)
+            })
           break;
       }
     })
