@@ -25,6 +25,9 @@ const employeeTracker = () => {
     .then(function (response) {
       switch (response) {
         case 'View All Employees':
+          db.query('SELECT * FROM employees', function (err, results) {
+            console.table(results);
+          });
           break;
         case 'Add Employee':
           break;
