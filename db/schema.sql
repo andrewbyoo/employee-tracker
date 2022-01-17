@@ -16,3 +16,13 @@ CREATE TABLE roles (
   REFERENCES departments(id)
   ON DELETE SET NULL
 );
+
+CREATE TABLE employees (
+  id INT NOT NULL AUTO_INCREMENT,
+  first_name VARCHAR(30) NOT NULL,
+  last_name VARCHAR(30) NOT NULL,
+  role_id INT FOREIGN KEY
+  REFERENCES roles(id)
+  ON DELETE SET NULL,
+  manager_id INT -- should be whatever the manager "employee" id number is, possibly add inquirer prompt with list of available managers to connect to employee?
+)
