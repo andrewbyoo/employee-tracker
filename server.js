@@ -34,6 +34,9 @@ const employeeTracker = () => {
         case 'Update Employee Role':
           break;
         case 'View All Roles':
+          db.query('SELECT * FROM roles', function(err, results) {
+            console.table(results);
+          });
           break;
         case 'Add Role':
           break;
