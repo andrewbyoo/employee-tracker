@@ -1,0 +1,23 @@
+{
+  "name": "employee-tracker",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "npm start",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/andrewbyoo/employee-tracker.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/andrewbyoo/employee-tracker/issues"
+  },
+  "homepage": "https://github.com/andrewbyoo/employee-tracker#readme",
+  "dependencies": {
+    "inquirer": "^8.2.0"
+  }
+}
