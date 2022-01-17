@@ -41,6 +41,9 @@ const employeeTracker = () => {
         case 'Add Role':
           break;
         case 'View All Departments':
+          db.query('SELECT * FROM departments', function(err, results) {
+            console.table(results);
+          });
           break;
         case 'Add Department':
           break;
