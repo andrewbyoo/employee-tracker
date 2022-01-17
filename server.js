@@ -1,10 +1,6 @@
 require('dotenv').config();
-const express = require('express');
 const mysql = require('mysql2');
 const inquirer = require('inquirer');
-
-const PORT = process.env.PORT || 3001;
-const app = express();
 
 const db = mysql.createConnection(
   {
@@ -15,9 +11,6 @@ const db = mysql.createConnection(
   },
   console.log(`Connected to the employee database.`)
 );
-
-app.use(express.urlencoded({extended: false}));
-app.use(express.json());
 
 const employeeTracker = () => {
   inquirer
