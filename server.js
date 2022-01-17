@@ -27,7 +27,7 @@ const employeeTracker = () => {
         type: 'list',
         name: 'generalMenu',
         message: 'What would you like to do?',
-        choices: ['View All Employees', 'Add Employee', 'Update Employee Role', 'View All Roles', 'Add Role', 'View All Departments', 'Add Department', 'Exit Program']
+        choices: ['View All Employees', 'Add Employee', 'Update Employee Role', 'View All Roles', 'Add Role', 'View All Departments', 'Add Department']
       }
     )
     .then(function (response) {
@@ -45,8 +45,6 @@ const employeeTracker = () => {
         case 'View All Departments':
           break;
         case 'Add Department':
-          break;
-        case 'Exit Program':
           break;
       }
     })
