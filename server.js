@@ -11,7 +11,7 @@ const db = mysql.createConnection(
     host: process.env.DB_HOST,
     username: process.env.DB_USER,
     password: process.env.DB_PASS,
-    database: 'Placeholder'
+    database: 'trackerList_db'
   },
   console.log(`Connected to the database.`)
 );
