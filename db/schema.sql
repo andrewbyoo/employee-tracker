@@ -1,19 +1,16 @@
-DROP DATABASE IF EXISTS departmentList_db;
-CREATE DATABASE departmentList_db;
+DROP DATABASE IF EXISTS trackerList_db;
+CREATE DATABASE trackerList_db;
 
-USE departmentList_db;
+USE trackerList_db;
 
 CREATE TABLE departments (
-  id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  name VARCHAR(30) NOT NULL
+  ID INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  Name VARCHAR(30) NOT NULL
 );
 
-DROP DATABASE IF EXISTS roleList_db;
-CREATE DATABASE roleList_db;
-
-USE roleList_db;
-
-DROP DATABASE IF EXISTS employeeList_db;
-CREATE DATABASE employeeList_db;
-
-USE employeeList_db;
+CREATE TABLE roles (
+  ID INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  Title VARCHAR(30) NOT NULL,
+  Salary DECIMAL NOT NULL,
+  Department_ID
+)
