@@ -1,6 +1,7 @@
+require('dotenv').config();
 const express = require('express');
 const mysql = require('mysql2');
-const inquirer = require('inqurier');
+const inquirer = require('inquirer');
 
 const PORT = process.env.PORT || 3001;
 const app = express();
@@ -15,7 +16,7 @@ const employeeTracker = () => {
         type: 'list',
         name: 'generalMenu',
         message: 'What would you like to do?',
-        choices: ['View All Employees', 'Add Employee', 'Update Employee Role', 'View All Roles', 'Add Role', 'View All Departments', 'Add Department']
+        choices: ['View All Employees', 'Add Employee', 'Update Employee Role', 'View All Roles', 'Add Role', 'View All Departments', 'Add Department', 'Exit Program']
       }
     )
     .then(function (response) {
@@ -33,6 +34,8 @@ const employeeTracker = () => {
         case 'View All Departments':
           break;
         case 'Add Department':
+          break;
+        case 'Exit Program':
           break;
       }
     })
