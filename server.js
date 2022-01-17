@@ -7,11 +7,12 @@ const db = require('db');
 const PORT = process.env.PORT || 3001;
 const app = express();
 
-db.connect(
+const connection = mysql.createConnection(
   {
     host: process.env.DB_HOST,
     username: process.env.DB_USER,
-    password: process.env.DB_PASS
+    password: process.env.DB_PASS,
+    database: 'Placeholder'
   },
   console.log(`Connected to the database.`)
 );
