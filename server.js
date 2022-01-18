@@ -45,7 +45,9 @@ const employeeTracker = () => {
               }
               // Figure out how to add choices depending on mysql database then add questions for role and who the manager is
             )
-            .then()
+            .then(function (response) {
+              return employeeTracker();
+            })
             .catch(err => {console.log(err)});
           break;
         case 'Update Employee Role':
@@ -53,7 +55,9 @@ const employeeTracker = () => {
             .prompt(
               // Same as above, but for listing employee names and what role they can be assigned to
             )
-            .then()
+            .then(function (response) {
+              return employeeTracker();
+            })
             .catch(err => {console.log(err)});
           break;
         case 'View All Roles':
@@ -72,7 +76,9 @@ const employeeTracker = () => {
               },
               // Same as above, but for listing what departments the role can be assigned to
             )
-            .then()
+            .then(function (response) {
+              return employeeTracker();
+            })
             .catch(err => {console.log(err)});
           break;
         case 'View All Departments':
