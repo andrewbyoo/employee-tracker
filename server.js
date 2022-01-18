@@ -47,6 +47,10 @@ const employeeTracker = () => {
             )
           break;
         case 'Update Employee Role':
+          inquirer
+            .prompt(
+              // Same as above, but for listing employee names and what role they can be assigned to
+            )
           break;
         case 'View All Roles':
           db.query('SELECT * FROM roles', function(err, results) {
@@ -55,6 +59,15 @@ const employeeTracker = () => {
           });
           break;
         case 'Add Role':
+          inquirer
+            .prompt(
+              {
+                type: 'input',
+                name: 'newRole',
+                message: 'What is the new role called?'
+              },
+              // Same as above, but for listing what departments the role can be assigned to
+            )
           break;
         case 'View All Departments':
           db.query('SELECT * FROM departments', function(err, results) {
