@@ -64,8 +64,8 @@ const employeeTracker = () => {
             .catch(err => {console.log(err)});
           break;
       }
-    }
-    .catch(err => {console.log(err)}));
+    })
+    .catch(err => {console.log(err)});
 };
 
 // Initialize app
