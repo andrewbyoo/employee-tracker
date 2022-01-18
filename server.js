@@ -31,6 +31,20 @@ const employeeTracker = () => {
           });
           break;
         case 'Add Employee':
+          inquirer
+            .prompt(
+              {
+                type: 'input',
+                name: 'firstName',
+                message: `What is the employee's first name?`
+              },
+              {
+                type: 'input',
+                name: 'lastName',
+                message: `What is the employee's last name?`
+              }
+              // Figure out how to add choices depending on mysql database then add questions for role and who the manager is
+            )
           break;
         case 'Update Employee Role':
           break;
@@ -58,7 +72,10 @@ const employeeTracker = () => {
               }
             )
             .then(function (response) {
-              db.query(`INSERT INTO departments (name) VALUES ('${response.departmentName}')`);
+              const department = response.departmentName.split(' ').map((words) => {
+                return words.substring(0, 1).toUpperCase() + words.substring(1);
+              }).join(' ');
+              db.query(`INSERT INTO departments (name) VALUES ('${department}')`);
               return employeeTracker();
             })
             .catch(err => {console.log(err)});
