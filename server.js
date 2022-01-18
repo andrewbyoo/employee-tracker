@@ -5,7 +5,7 @@ const inquirer = require('inquirer');
 const db = mysql.createConnection(
   {
     host: process.env.DB_HOST,
-    username: process.env.DB_USER,
+    user: process.env.DB_USER,
     password: process.env.DB_PASS,
     database: 'employee_db'
   },
@@ -27,6 +27,7 @@ const employeeTracker = () => {
         case 'View All Employees':
           db.query('SELECT * FROM employees', function (err, results) {
             console.table(results);
+            return employeeTracker();
           });
           break;
         case 'Add Employee':
@@ -36,6 +37,7 @@ const employeeTracker = () => {
         case 'View All Roles':
           db.query('SELECT * FROM roles', function(err, results) {
             console.table(results);
+            return employeeTracker();
           });
           break;
         case 'Add Role':
@@ -43,6 +45,7 @@ const employeeTracker = () => {
         case 'View All Departments':
           db.query('SELECT * FROM departments', function(err, results) {
             console.table(results);
+            return employeeTracker();
           });
           break;
         case 'Add Department':
@@ -55,11 +58,14 @@ const employeeTracker = () => {
               }
             )
             .then(function (response) {
-              db.query(`INSERT INTO departments (name) VALUES ('${response.departmentName}')`)
+              db.query(`INSERT INTO departments (name) VALUES ('${response.departmentName}')`);
+              return employeeTracker();
             })
+            .catch(err => {console.log(err)});
           break;
       }
-    })
+    }
+    .catch(err => {console.log(err)}));
 };
 
 // Initialize app
