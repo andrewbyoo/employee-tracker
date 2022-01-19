@@ -29,8 +29,9 @@ const employeeTracker = () => {
       switch (response.generalMenu) {
 
         // Shows a table of all employees in employee_db on the console
+        // TODO: figure out how to join the manager_id as the employee's name
         case 'View All Employees':
-          db.query('SELECT * FROM employees', function (err, results) {
+          db.query('SELECT employees.id, employees.first_name, employees.last_name, roles.title, departments.name AS department, roles.salary FROM employees JOIN roles ON employees.role_id = roles.id JOIN departments ON roles.department_id = departments.id', function (err, results) {
             const table = cTable.getTable(results);
             console.log(table);
             return employeeTracker();
