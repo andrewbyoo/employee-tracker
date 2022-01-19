@@ -123,7 +123,7 @@ const employeeTracker = () => {
                 .prompt([
                   {
                     type: 'list',
-                    name: 'names',
+                    name: 'name',
                     message: 'Which employee would you like to change?',
                     choices: employeeArray
                   },
@@ -135,8 +135,8 @@ const employeeTracker = () => {
                   }
                 ])
                 .then(function (response) {
-
-                  // Converts chosen role to the corresponding id number
+                  // Retrieves id of chosen employee and id of chosen role
+                  const employeeId = idArray.filter(obj => obj.name === response.name).map(obj => obj.id);
                   const employeeChangedRoleId = results.filter(obj => obj.title === response.role).map(obj => obj.id);
 
                   return employeeTracker();
