@@ -168,21 +168,29 @@ const employeeTracker = () => {
           });
           break;
 
-        // TODO: write case
+        // Adds a new role to the roles table in employee_db
         case 'Add Role':
-          inquirer
-            .prompt(
-              {
-                type: 'input',
-                name: 'newRole',
-                message: 'What is the new role called?'
-              },
-              // Same as above, but for listing what departments the role can be assigned to
-            )
-            .then(function (response) {
-              return employeeTracker();
-            })
-            .catch(err => { console.log(err) });
+          db.query('SELECT * FROM departments', function (err, results) {
+            inquirer
+              .prompt(
+                {
+                  type: 'input',
+                  name: 'newRole',
+                  message: 'What is the new role called?'
+                },
+                {
+                  type: 'list',
+                  name: 'department',
+                  message: 'What department will the new role be assigned to?',
+                  choices: results.map(obj => obj.name)
+                }
+                // Same as above, but for listing what departments the role can be assigned to
+              )
+              .then(function (response) {
+                return employeeTracker();
+              })
+              .catch(err => { console.log(err) });
+          });
           break;
 
         // Shows a table of all departments in employee_db on the console
