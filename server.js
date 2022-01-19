@@ -201,6 +201,7 @@ const employeeTracker = () => {
                 // Convert salary string to integer
                 const salaryInt = parseInt(response.salary);
 
+                // Adds new role into the database
                 db.query('INSERT INTO roles (title, department_id, salary) VALUES (?, ?, ?)', [newRoleCapitalized, departmentId, salaryInt], function (err, results) {
 
                   // If any of the inputs failed, move user back to the general menu
@@ -211,9 +212,7 @@ const employeeTracker = () => {
 
                   console.log(`\nThe ${newRoleCapitalized} role has been added to the employee database!\n`);
                   return employeeTracker();
-                })
-
-                return employeeTracker();
+                });
               })
               .catch(err => { console.log(err) });
           });
@@ -227,6 +226,8 @@ const employeeTracker = () => {
             return employeeTracker();
           });
           break;
+
+        // Adds a new department to the departments table in employee_db
         case 'Add Department':
           inquirer
             .prompt(
@@ -237,10 +238,15 @@ const employeeTracker = () => {
               }
             )
             .then(function (response) {
+
+              // Capitalizes all words on the response
               const department = response.departmentName.split(' ').map((words) => {
                 return words.substring(0, 1).toUpperCase() + words.substring(1);
               }).join(' ');
+
+              // Adds new department into the database
               db.query(`INSERT INTO departments (name) VALUES ('${department}')`);
+              console.log(`\nThe ${department} department has been added to the employee database!\n`)
               return employeeTracker();
             })
             .catch(err => { console.log(err) });
