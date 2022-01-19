@@ -110,8 +110,9 @@ const employeeTracker = () => {
             .catch(err => { console.log(err) });
           break;
         case 'View All Roles':
-          db.query('SELECT * FROM roles', function (err, results) {
-            console.table(results);
+          db.query('SELECT roles.id, roles.title, departments.name AS department, roles.salary FROM roles JOIN departments ON roles.department_id = departments.id', function (err, results) {
+            const table = cTable.getTable(results);
+            console.log(table);
             return employeeTracker();
           });
           break;
