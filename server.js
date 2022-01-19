@@ -30,7 +30,14 @@ const employeeTracker = () => {
 
         // Shows a table of all employees in employee_db on the console
         case 'View All Employees':
-          db.query('SELECT emp.id, emp.first_name, emp.last_name, roles.title, departments.name AS department, roles.salary, CONCAT(mng.first_name, " ",mng.last_name) AS manager FROM employees emp LEFT JOIN employees mng ON emp.manager_id = mng.id JOIN roles ON emp.role_id = roles.id JOIN departments ON roles.department_id = departments.id ORDER BY id', function (err, results) {
+          const viewEmpQuery = `SELECT emp.id, emp.first_name, emp.last_name, roles.title, departments.name AS department, roles.salary, CONCAT(mng.first_name, " ",mng.last_name) AS manager
+          FROM employees emp
+          LEFT JOIN employees mng ON emp.manager_id = mng.id
+          JOIN roles ON emp.role_id = roles.id
+          JOIN departments ON roles.department_id = departments.id
+          ORDER BY id`;
+
+          db.query(viewEmpQuery, function (err, results) {
             const table = cTable.getTable(results);
             console.log(table);
             return employeeTracker();
