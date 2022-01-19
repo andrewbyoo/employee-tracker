@@ -71,6 +71,11 @@ const employeeTracker = () => {
                   }
                 ])
                 .then(function (response) {
+                  // Variables to capitalize the input and combine them into one variable containing the full name
+                  const firstNameCapitalized = response.firstName.charAt(0).toUpperCase() + response.firstName.slice(1);
+                  const lastNameCapitalized = response.lastName.charAt(0).toUpperCase() + response.lastName.slice(1);
+                  const newEmployeeName = firstNameCapitalized + ' ' + lastNameCapitalized;
+
                   return employeeTracker();
                 })
                 .catch(err => { console.log(err) });
