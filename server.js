@@ -194,11 +194,24 @@ const employeeTracker = () => {
 
                 // Capitalizes the user input for the new role
                 const newRoleCapitalized = response.newRole.split(' ').map(obj => obj[0].toUpperCase() + obj.substring(1)).join(' ');
-                console.log(newRoleCapitalized)
 
                 // Retrieves the id number for the chosen department
                 const departmentId = results.filter(obj => obj.name === response.department).map(obj => obj.id);
-                console.log(departmentId)
+
+                // Convert salary string to integer
+                const salaryInt = parseInt(response.salary);
+
+                db.query('INSERT INTO roles (title, department_id, salary) VALUES (?, ?, ?)', [newRoleCapitalized, departmentId, salaryInt], function (err, results) {
+
+                  // If any of the inputs failed, move user back to the general menu
+                  if (err) {
+                    console.error(err);
+                    return employeeTracker();
+                  };
+
+                  console.log(`\nThe ${newRoleCapitalized} role has been added to the employee database!\n`);
+                  return employeeTracker();
+                })
 
                 return employeeTracker();
               })
