@@ -33,9 +33,8 @@ const employeeTracker = () => {
         case 'Add Employee':
           db.query('SELECT first_name, last_name FROM employees', function (err, results) {
             const employeeArray = results.map(obj => obj.first_name + ' ' + obj.last_name);
-            const choicesArray = ['None'].concat(employeeArray.name);
 
-            db.query('SELECT id, title FROM roles', function (err, results) {
+            db.query('SELECT title FROM roles', function (err, results) {
               inquirer
                 .prompt([
                   {
@@ -52,14 +51,14 @@ const employeeTracker = () => {
                     type: 'list',
                     name: 'managerName',
                     message: `Who is the employee's manager?`,
-                    choices: choicesArray
+                    choices: ['None'].concat(employeeArray)
                   },
                   {
                     type: 'list',
                     name: 'role',
                     message: `What is the employee's job title?`,
-                    choices:
-                }
+                    choices: results.map(obj => obj.title)
+                  }
                 ])
                 .then(function (response) {
                   return employeeTracker();
