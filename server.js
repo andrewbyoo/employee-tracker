@@ -118,16 +118,17 @@ const employeeTracker = () => {
             const employeeArray = results.map(obj => obj.name);
 
             // Retrieves all available roles
-            db.query('SELECT id, title FROM roles', function (err, results) {});
+            db.query('SELECT id, title FROM roles', function (err, results) {
+              inquirer
+                .prompt(
+                  // Same as above, but for listing employee names and what role they can be assigned to
+                )
+                .then(function (response) {
+                  return employeeTracker();
+                })
+                .catch(err => { console.log(err) });
+            });
 
-            // inquirer
-            //   .prompt(
-            //     // Same as above, but for listing employee names and what role they can be assigned to
-            //   )
-            //   .then(function (response) {
-            //     return employeeTracker();
-            //   })
-            //   .catch(err => { console.log(err) });
           })
           break;
         case 'View All Roles':
