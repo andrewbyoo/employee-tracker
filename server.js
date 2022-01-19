@@ -39,7 +39,7 @@ const employeeTracker = () => {
 
           db.query(viewEmpQuery, function (err, results) {
             const table = cTable.getTable(results);
-            console.log(table);
+            console.log(`\n\n${table}\n`);
             return employeeTracker();
           });
           break;
@@ -91,7 +91,7 @@ const employeeTracker = () => {
                   let managerId;
                   (response.managerName === 'None') ? managerId = null : managerId = idArray.filter(obj => obj.name === response.managerName).map(obj => obj.id);
 
-                  // CRUD Insert to add new employee to the employee database and call back the general menu
+                  // Inserts new employee to the employee database and calls back the general menu
                   db.query(`INSERT INTO employees (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)`, [firstNameCapitalized, lastNameCapitalized, newEmployeeRoleId, managerId], function (err, results) {
 
                     // If any of the inputs failed, move user back to the general menu
@@ -100,7 +100,7 @@ const employeeTracker = () => {
                       return employeeTracker();
                     };
 
-                    console.log(`${firstNameCapitalized} ${lastNameCapitalized} has been added to the employee database!`);
+                    console.log(`\n${firstNameCapitalized} ${lastNameCapitalized} has been added to the employee database!\n`);
                     return employeeTracker();
                   });
                 })
@@ -139,7 +139,18 @@ const employeeTracker = () => {
                   const employeeId = idArray.filter(obj => obj.name === response.name).map(obj => obj.id);
                   const employeeChangedRoleId = results.filter(obj => obj.title === response.role).map(obj => obj.id);
 
-                  return employeeTracker();
+                  // Updates employee's role_id to the chosen role
+                  db.query(`UPDATE employees SET role_id = ? WHERE id = ?`, [employeeChangedRoleId, employeeId], function (err, results) {
+
+                    // If any of the inputs failed, move user back to the general menu
+                    if (err) {
+                      console.error('\nA first and last name are both required to add a new employee. Please input the employee again.\n');
+                      return employeeTracker();
+                    };
+
+                    console.log(`\n${response.name} has been added to the employee database!\n`);
+                    return employeeTracker();
+                  });
                 })
                 .catch(err => { console.log(err) });
             });
@@ -149,7 +160,7 @@ const employeeTracker = () => {
         case 'View All Roles':
           db.query('SELECT roles.id, roles.title, departments.name AS department, roles.salary FROM roles JOIN departments ON roles.department_id = departments.id ORDER BY id', function (err, results) {
             const table = cTable.getTable(results);
-            console.log(table);
+            console.log(`\n\n${table}\n`);
             return employeeTracker();
           });
           break;
@@ -173,7 +184,7 @@ const employeeTracker = () => {
         case 'View All Departments':
           db.query('SELECT * FROM departments ORDER BY id', function (err, results) {
             const table = cTable.getTable(results);
-            console.log(table);
+            console.log(`\n\n${table}\n`);
             return employeeTracker();
           });
           break;
