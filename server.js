@@ -245,7 +245,7 @@ const employeeTracker = () => {
               }).join(' ');
 
               // Adds new department into the database
-              db.query(`INSERT INTO departments (name) VALUES ('${department}')`);
+              db.query(`INSERT INTO departments (name) VALUES (?)`, department);
               console.log(`\nThe ${department} department has been added to the employee database!\n`)
               return employeeTracker();
             })
