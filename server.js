@@ -31,24 +31,33 @@ const employeeTracker = () => {
           });
           break;
         case 'Add Employee':
-          inquirer
-            .prompt(
-              {
-                type: 'input',
-                name: 'firstName',
-                message: `What is the employee's first name?`
-              },
-              {
-                type: 'input',
-                name: 'lastName',
-                message: `What is the employee's last name?`
-              }
-              // Figure out how to add choices depending on mysql database then add questions for role and who the manager is
-            )
-            .then(function (response) {
-              return employeeTracker();
-            })
-            .catch(err => {console.log(err)});
+          db.query('SELECT id, first_name, last_name FROM employees', function (err, results) {
+            console.log(results.map(obj => obj.first_name + ' ' + obj.last_name))
+
+            // inquirer
+            //   .prompt([
+            //     {
+            //       type: 'input',
+            //       name: 'firstName',
+            //       message: `What is the employee's first name?`
+            //     },
+            //     {
+            //       type: 'input',
+            //       name: 'lastName',
+            //       message: `What is the employee's last name?`
+            //     },
+            //     {
+            //       type: 'list',
+            //       name: 'managerName',
+            //       message: `Who is the employee's manager?`,
+            //       choices: managerArray
+            //     }]
+            //   )
+            //   .then(function (response) {
+            //     return employeeTracker();
+            //   })
+            //   .catch(err => { console.log(err) });
+          })
           break;
         case 'Update Employee Role':
           inquirer
