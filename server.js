@@ -111,8 +111,8 @@ const employeeTracker = () => {
 
         // TODO: write case
         case 'Update Employee Role':
-          db.query('SELECT employees.id, CONCAT(employees.first_name, " ", employees.last_name) AS name, roles.title FROM employees LEFT JOIN roles ON employees.role_id = roles.id ORDER BY id', function (err, results) {
-            console.log(results)
+          db.query('SELECT id, CONCAT(first_name, " ", last_name) AS name FROM employees', function (err, results) {
+
             // inquirer
             //   .prompt(
             //     // Same as above, but for listing employee names and what role they can be assigned to
