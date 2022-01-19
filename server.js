@@ -81,7 +81,9 @@ const employeeTracker = () => {
                   // Converts chosen manager to the corresponding id number
                   const managerId = idArray.filter(obj => obj.name === response.managerName).map(obj => obj.id);
 
-                  db.query(`INSERT INTO employees (first_name, last_name, role_id, manager_id) VALUES (${firstNameCapitalized}, ${lastNameCapitalized}, ${newEmployeeRoleId}, ${managerId})`, function (err, results) {
+                  // CRUD Insert to add new employee to the employee database and call back the general menu
+                  db.query(`INSERT INTO employees (first_name, last_name, role_id, manager_id) VALUES ('${firstNameCapitalized}', '${lastNameCapitalized}', ${newEmployeeRoleId}, ${managerId})`, function (err, results) {
+
                     // If any of the inputs failed, move user back to the general menu
                     if (err) {
                       console.error('\nA first and last name are both required to add a new employee. Please input the employee again.\n');
