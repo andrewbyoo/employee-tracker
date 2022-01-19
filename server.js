@@ -40,7 +40,7 @@ const employeeTracker = () => {
 
           // Retrieves the full name of all existing employees
           db.query('SELECT id, first_name, last_name FROM employees', function (err, results) {
-            const idArray = results.map(obj => { return { id: obj.id, name: obj.first_name + ' ' + obj.last_name }});
+            const idArray = results.map(obj => { return { id: obj.id, name: obj.first_name + ' ' + obj.last_name } });
             const employeeArray = results.map(obj => obj.first_name + ' ' + obj.last_name);
 
             // Retrieves all available roles
@@ -106,10 +106,10 @@ const employeeTracker = () => {
             .then(function (response) {
               return employeeTracker();
             })
-            .catch(err => {console.log(err)});
+            .catch(err => { console.log(err) });
           break;
         case 'View All Roles':
-          db.query('SELECT * FROM roles', function(err, results) {
+          db.query('SELECT * FROM roles', function (err, results) {
             console.table(results);
             return employeeTracker();
           });
@@ -127,10 +127,10 @@ const employeeTracker = () => {
             .then(function (response) {
               return employeeTracker();
             })
-            .catch(err => {console.log(err)});
+            .catch(err => { console.log(err) });
           break;
         case 'View All Departments':
-          db.query('SELECT * FROM departments', function(err, results) {
+          db.query('SELECT * FROM departments', function (err, results) {
             console.table(results);
             return employeeTracker();
           });
@@ -151,11 +151,11 @@ const employeeTracker = () => {
               db.query(`INSERT INTO departments (name) VALUES ('${department}')`);
               return employeeTracker();
             })
-            .catch(err => {console.log(err)});
+            .catch(err => { console.log(err) });
           break;
       }
     })
-    .catch(err => {console.log(err)});
+    .catch(err => { console.log(err) });
 };
 
 // Initialize app
