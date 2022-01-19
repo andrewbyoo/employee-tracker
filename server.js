@@ -2,6 +2,7 @@ require('dotenv').config();
 const mysql = require('mysql2');
 const inquirer = require('inquirer');
 
+// Connects node to mysql using the .env file
 const db = mysql.createConnection(
   {
     host: process.env.DB_HOST,
@@ -12,6 +13,7 @@ const db = mysql.createConnection(
   console.log(`Connected to the employee database.`)
 );
 
+// Function containing the app options
 const employeeTracker = () => {
   inquirer
     .prompt(
@@ -24,16 +26,24 @@ const employeeTracker = () => {
     )
     .then(function (response) {
       switch (response.generalMenu) {
+
+        // Shows a table of all employees in employee_db on the console
         case 'View All Employees':
           db.query('SELECT * FROM employees', function (err, results) {
             console.table(results);
             return employeeTracker();
           });
           break;
+
+        // Adds a new employee to the employees table in employee_db
         case 'Add Employee':
+
+          // Retrieves the full name of all existing employees
           db.query('SELECT first_name, last_name FROM employees', function (err, results) {
+            const idArray = results.map(obj => [{ id: obj.id, name: obj.first_name + ' ' + obj.last_name }]);
             const employeeArray = results.map(obj => obj.first_name + ' ' + obj.last_name);
 
+            // Retrieves all available roles
             db.query('SELECT title FROM roles', function (err, results) {
               inquirer
                 .prompt([
