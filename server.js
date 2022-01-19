@@ -80,7 +80,8 @@ const employeeTracker = () => {
                   const newEmployeeRoleId = results.filter(obj => obj.title === response.role).map(obj => obj.id);
 
                   // Converts chosen manager to the corresponding id number
-                  const managerId = idArray.filter(obj => obj.name === response.managerName).map(obj => obj.id);
+                  let managerId;
+                  (response.managerName === 'None') ? managerId = null : managerId = idArray.filter(obj => obj.name === response.managerName).map(obj => obj.id);
 
                   // CRUD Insert to add new employee to the employee database and call back the general menu
                   db.query(`INSERT INTO employees (first_name, last_name, role_id, manager_id) VALUES ('${firstNameCapitalized}', '${lastNameCapitalized}', ${newEmployeeRoleId}, ${managerId})`, function (err, results) {
