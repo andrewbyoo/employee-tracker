@@ -26,5 +26,8 @@ CREATE TABLE employees (
   FOREIGN KEY (role_id)
   REFERENCES roles(id)
   ON DELETE SET NULL,
-  manager_id INT -- should be whatever the manager "employee" id number is, possibly add inquirer prompt with list of available managers to connect to employee?
+  manager_id INT,
+  FOREIGN KEY (manager_id)
+  REFERENCES employees(id)
+  ON DELETE SET NULL
 )
