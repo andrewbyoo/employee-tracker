@@ -172,7 +172,7 @@ const employeeTracker = () => {
         case 'Add Role':
           db.query('SELECT * FROM departments', function (err, results) {
             inquirer
-              .prompt(
+              .prompt([
                 {
                   type: 'input',
                   name: 'newRole',
@@ -183,11 +183,23 @@ const employeeTracker = () => {
                   name: 'department',
                   message: 'What department will the new role be assigned to?',
                   choices: results.map(obj => obj.name)
+                },
+                {
+                  type: 'input',
+                  name: 'salary',
+                  message: 'How much is the salary for the role?'
                 }
-              )
+              ])
               .then(function (response) {
+
+                // Capitalizes the user input for the new role
                 const newRoleCapitalized = response.newRole.split(' ').map(obj => obj[0].toUpperCase() + obj.substring(1)).join(' ');
                 console.log(newRoleCapitalized)
+
+                // Retrieves the id number for the chosen department
+                const departmentId = results.filter(obj => obj.name === response.department).map(obj => obj.id);
+                console.log(departmentId)
+
                 return employeeTracker();
               })
               .catch(err => { console.log(err) });
