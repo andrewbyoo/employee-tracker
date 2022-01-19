@@ -48,9 +48,9 @@ const employeeTracker = () => {
         case 'Add Employee':
 
           // Retrieves the full name of all existing employees
-          db.query('SELECT id, first_name, last_name FROM employees', function (err, results) {
-            const idArray = results.map(obj => { return { id: obj.id, name: obj.first_name + ' ' + obj.last_name } });
-            const employeeArray = results.map(obj => obj.first_name + ' ' + obj.last_name);
+          db.query('SELECT id, CONCAT(first_name, " ", last_name) AS name FROM employees', function (err, results) {
+            const idArray = results;
+            const employeeArray = results.map(obj => obj.name);
 
             // Retrieves all available roles
             db.query('SELECT id, title FROM roles', function (err, results) {
@@ -111,7 +111,14 @@ const employeeTracker = () => {
 
         // TODO: write case
         case 'Update Employee Role':
+
+          // Retrieves the full name of all existing employees
           db.query('SELECT id, CONCAT(first_name, " ", last_name) AS name FROM employees', function (err, results) {
+            const idArray = results;
+            const employeeArray = results.map(obj => obj.name);
+
+            // Retrieves all available roles
+            db.query('SELECT id, title FROM roles', function (err, results) {});
 
             // inquirer
             //   .prompt(
