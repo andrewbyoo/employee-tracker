@@ -1,6 +1,7 @@
 require('dotenv').config();
 const mysql = require('mysql2');
 const inquirer = require('inquirer');
+const cTable = require('console.table');
 
 // Connects node to mysql using the .env file
 const db = mysql.createConnection(
@@ -92,11 +93,11 @@ const employeeTracker = () => {
 
                     console.log(`${firstNameCapitalized} ${lastNameCapitalized} has been added to the employee database!`);
                     return employeeTracker();
-                  })
+                  });
                 })
                 .catch(err => { console.log(err) });
-            })
-          })
+            });
+          });
           break;
         case 'Update Employee Role':
           inquirer
@@ -131,7 +132,8 @@ const employeeTracker = () => {
           break;
         case 'View All Departments':
           db.query('SELECT * FROM departments', function (err, results) {
-            console.table(results);
+            const table = cTable.getTable(results);
+            console.log(table);
             return employeeTracker();
           });
           break;
@@ -153,7 +155,7 @@ const employeeTracker = () => {
             })
             .catch(err => { console.log(err) });
           break;
-      }
+      };
     })
     .catch(err => { console.log(err) });
 };
