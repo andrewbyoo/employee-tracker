@@ -40,7 +40,7 @@ const employeeTracker = () => {
 
           // Retrieves the full name of all existing employees
           db.query('SELECT id, first_name, last_name FROM employees', function (err, results) {
-            const idArray = results.map(obj => [{ id: obj.id, name: obj.first_name + ' ' + obj.last_name }]);
+            const idArray = results.map(obj => { return { id: obj.id, name: obj.first_name + ' ' + obj.last_name }});
             console.log(idArray)
             const employeeArray = results.map(obj => obj.first_name + ' ' + obj.last_name);
 
@@ -80,9 +80,11 @@ const employeeTracker = () => {
                   // Converts chosen role to the corresponding id number
                   const newEmployeeRoleId = results.filter(obj => obj.title === response.role).map(obj => obj.id);
 
+                  console.log(idArray.name)
+                  console.log(response.managerName)
                   // Converts chosen manager to the corresponding id number
                   const managerId = idArray.filter(obj => obj.name === response.managerName).map(obj => obj.id);
-                  // console.log(managerId)
+                  console.log(managerId)
 
                   return employeeTracker();
                 })
