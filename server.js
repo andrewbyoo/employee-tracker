@@ -163,7 +163,7 @@ const employeeTracker = () => {
         case 'Update Employee Manager':
           db.query('SELECT id, CONCAT(first_name, " ", last_name) AS name FROM employees', function (err, results) {
             const idArray = results;
-            const employeeArray = results.map(obj => obj.name);
+            let employeeArray = results.map(obj => obj.name);
 
             inquirer
               .prompt(
@@ -176,6 +176,25 @@ const employeeTracker = () => {
               )
               .then(function (response) {
 
+                // Retrieves id of chosen employee
+                const employeeId = idArray.filter(obj => obj.name === response.employee).map(obj => obj.id);
+
+                // Redefines employeeArray with all employees except for the employee chosen
+                employeeArray = employeeArray.filter(obj => obj !== response.employee);
+
+                inquirer
+                  .prompt(
+                    {
+                      type: 'list',
+                      name: 'manager',
+                      message: `Who will ${response.employee} be reporting to?`,
+                      choices: employeeArray
+                    }
+                  )
+                  .then(function (response) {
+
+                  })
+                  .catch(err => { console.log(err) })
               })
               .catch(err => { console.log(err) })
           });
