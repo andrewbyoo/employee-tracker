@@ -36,6 +36,8 @@ const employeeTracker = () => {
             const employeeArray = results.map(obj => obj.first_name + ' ' + obj.last_name);
             const choicesArray = ['None'].concat(employeeArray.name);
 
+            db.query('SELECT ')
+
             inquirer
               .prompt([
                 {
@@ -53,8 +55,14 @@ const employeeTracker = () => {
                   name: 'managerName',
                   message: `Who is the employee's manager?`,
                   choices: choicesArray
-                }]
-              )
+                },
+                {
+                  type: 'list',
+                  name: 'role',
+                  message: `What is the employee's role?`,
+                  choices:
+                }
+              ])
               .then(function (response) {
                 return employeeTracker();
               })
