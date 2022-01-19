@@ -44,7 +44,7 @@ const employeeTracker = () => {
             const employeeArray = results.map(obj => obj.first_name + ' ' + obj.last_name);
 
             // Retrieves all available roles
-            db.query('SELECT title FROM roles', function (err, results) {
+            db.query('SELECT id, title FROM roles', function (err, results) {
               inquirer
                 .prompt([
                   {
@@ -75,6 +75,9 @@ const employeeTracker = () => {
                   const firstNameCapitalized = response.firstName.charAt(0).toUpperCase() + response.firstName.slice(1);
                   const lastNameCapitalized = response.lastName.charAt(0).toUpperCase() + response.lastName.slice(1);
                   const newEmployeeName = firstNameCapitalized + ' ' + lastNameCapitalized;
+
+                  const newEmployeeRoleId = results.filter(obj => obj.title === response.role).map(obj => obj.id);
+                  console.log(newEmployeeRoleId)
 
                   return employeeTracker();
                 })
