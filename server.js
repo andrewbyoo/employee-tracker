@@ -34,7 +34,7 @@ const employeeTracker = () => {
           db.query('SELECT id, first_name, last_name FROM employees', function (err, results) {
             const idArray = results.map(obj => [{id: obj.id, name: obj.first_name + ' ' + obj.last_name}]);
             const employeeArray = results.map(obj => obj.first_name + ' ' + obj.last_name);
-            const choicesArray = ['None'].concat(testArray.name);
+            const choicesArray = ['None'].concat(employeeArray.name);
 
             inquirer
               .prompt([
