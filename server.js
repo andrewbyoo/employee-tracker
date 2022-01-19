@@ -31,7 +31,8 @@ const employeeTracker = () => {
         // Shows a table of all employees in employee_db on the console
         case 'View All Employees':
           db.query('SELECT * FROM employees', function (err, results) {
-            console.table(results);
+            const table = cTable.getTable(results);
+            console.log(table);
             return employeeTracker();
           });
           break;
