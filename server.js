@@ -22,7 +22,7 @@ const employeeTracker = () => {
         type: 'list',
         name: 'generalMenu',
         message: 'What would you like to do?',
-        choices: ['View All Employees', 'Add Employee', 'Update Employee Role', 'View All Roles', 'Add Role', 'View All Departments', 'Add Department']
+        choices: ['View All Employees', 'Add Employee', 'Update Employee Role', 'Update Employee Manager', 'View All Roles', 'Add Role', 'View All Departments', 'Add Department']
       }
     )
     .then(function (response) {
@@ -157,6 +157,10 @@ const employeeTracker = () => {
                 .catch(err => { console.log(err) });
             });
           });
+          break;
+
+        // Updates who the employee reports to
+        case 'Update Employee Manager':
           break;
 
         // Shows a table of all roles in employee_db on the console
