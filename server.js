@@ -49,15 +49,15 @@ const employeeTracker = () => {
                   },
                   {
                     type: 'list',
-                    name: 'managerName',
-                    message: `Who is the employee's manager?`,
-                    choices: ['None'].concat(employeeArray)
-                  },
-                  {
-                    type: 'list',
                     name: 'role',
                     message: `What is the employee's job title?`,
                     choices: results.map(obj => obj.title)
+                  },
+                  {
+                    type: 'list',
+                    name: 'managerName',
+                    message: `Who is the employee's manager?`,
+                    choices: ['None'].concat(employeeArray)
                   }
                 ])
                 .then(function (response) {
