@@ -175,6 +175,7 @@ const employeeTracker = () => {
                 }
               )
               .then(function (response) {
+                const updatedEmployee = response.employee;
 
                 // Retrieves id of chosen employee
                 const employeeId = idArray.filter(obj => obj.name === response.employee).map(obj => obj.id);
@@ -193,6 +194,21 @@ const employeeTracker = () => {
                   )
                   .then(function (response) {
 
+                    // Retrieves id of the chosen manager
+                    const changedManagerId = results.filter(obj => obj.name === response.manager).map(obj => obj.id);
+
+                    // Updates employee's manager
+                    db.query(`UPDATE employees SET manager_id = ? WHERE id = ?`, [changedManagerId, employeeId], function (err, results) {
+
+                      // If any of the inputs failed, move user back to the general menu
+                      if (err) {
+                        console.error(err);
+                        return employeeTracker();
+                      };
+
+                      console.log(`\n${updatedEmployee}'s manager has been updated in the employee database!\n`);
+                      return employeeTracker();
+                    });
                   })
                   .catch(err => { console.log(err) })
               })
