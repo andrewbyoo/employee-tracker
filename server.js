@@ -31,42 +31,41 @@ const employeeTracker = () => {
           });
           break;
         case 'Add Employee':
-          db.query('SELECT id, first_name, last_name FROM employees', function (err, results) {
-            const idArray = results.map(obj => [{id: obj.id, name: obj.first_name + ' ' + obj.last_name}]);
+          db.query('SELECT first_name, last_name FROM employees', function (err, results) {
             const employeeArray = results.map(obj => obj.first_name + ' ' + obj.last_name);
             const choicesArray = ['None'].concat(employeeArray.name);
 
-            db.query('SELECT ')
-
-            inquirer
-              .prompt([
-                {
-                  type: 'input',
-                  name: 'firstName',
-                  message: `What is the employee's first name?`
-                },
-                {
-                  type: 'input',
-                  name: 'lastName',
-                  message: `What is the employee's last name?`
-                },
-                {
-                  type: 'list',
-                  name: 'managerName',
-                  message: `Who is the employee's manager?`,
-                  choices: choicesArray
-                },
-                {
-                  type: 'list',
-                  name: 'role',
-                  message: `What is the employee's role?`,
-                  choices:
+            db.query('SELECT id, title FROM roles', function (err, results) {
+              inquirer
+                .prompt([
+                  {
+                    type: 'input',
+                    name: 'firstName',
+                    message: `What is the employee's first name?`
+                  },
+                  {
+                    type: 'input',
+                    name: 'lastName',
+                    message: `What is the employee's last name?`
+                  },
+                  {
+                    type: 'list',
+                    name: 'managerName',
+                    message: `Who is the employee's manager?`,
+                    choices: choicesArray
+                  },
+                  {
+                    type: 'list',
+                    name: 'role',
+                    message: `What is the employee's job title?`,
+                    choices:
                 }
-              ])
-              .then(function (response) {
-                return employeeTracker();
-              })
-              .catch(err => { console.log(err) });
+                ])
+                .then(function (response) {
+                  return employeeTracker();
+                })
+                .catch(err => { console.log(err) });
+            })
           })
           break;
         case 'Update Employee Role':
