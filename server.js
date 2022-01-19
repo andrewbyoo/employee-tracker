@@ -31,13 +31,7 @@ const employeeTracker = () => {
         // Shows a table of all employees in employee_db on the console
         case 'View All Employees':
 
-          // SELF JOIN TEST CODE
-          // db.query('SELECT emp.first_name, emp.last_name, CONCAT(mng.first_name, " ",mng.last_name) AS manager FROM employees emp LEFT JOIN employees mng ON emp.manager_id = mng.id', function (err, results) {
-          //   const table = cTable.getTable(results);
-          //   console.log(table);
-          // })
-
-          db.query('SELECT emp.id, emp.first_name, emp.last_name, roles.title, departments.name AS department, roles.salary, CONCAT(mng.first_name, " ",mng.last_name) AS manager FROM employees emp LEFT JOIN employees mng ON emp.manager_id = mng.id JOIN roles ON emp.role_id = roles.id JOIN departments ON roles.department_id = departments.id', function (err, results) {
+          db.query('SELECT emp.id, emp.first_name, emp.last_name, roles.title, departments.name AS department, roles.salary, CONCAT(mng.first_name, " ",mng.last_name) AS manager FROM employees emp LEFT JOIN employees mng ON emp.manager_id = mng.id JOIN roles ON emp.role_id = roles.id JOIN departments ON roles.department_id = departments.id ORDER BY id', function (err, results) {
             const table = cTable.getTable(results);
             console.log(table);
             return employeeTracker();
@@ -119,7 +113,7 @@ const employeeTracker = () => {
             .catch(err => { console.log(err) });
           break;
         case 'View All Roles':
-          db.query('SELECT roles.id, roles.title, departments.name AS department, roles.salary FROM roles JOIN departments ON roles.department_id = departments.id', function (err, results) {
+          db.query('SELECT roles.id, roles.title, departments.name AS department, roles.salary FROM roles JOIN departments ON roles.department_id = departments.id ORDER BY id', function (err, results) {
             const table = cTable.getTable(results);
             console.log(table);
             return employeeTracker();
@@ -141,7 +135,7 @@ const employeeTracker = () => {
             .catch(err => { console.log(err) });
           break;
         case 'View All Departments':
-          db.query('SELECT * FROM departments', function (err, results) {
+          db.query('SELECT * FROM departments ORDER BY id', function (err, results) {
             const table = cTable.getTable(results);
             console.log(table);
             return employeeTracker();
