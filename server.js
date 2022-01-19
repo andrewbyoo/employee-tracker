@@ -80,6 +80,7 @@ const employeeTracker = () => {
                   }
                 ])
                 .then(function (response) {
+
                   // Variables to capitalize the input and combine them into one variable containing the full name
                   const firstNameCapitalized = response.firstName.charAt(0).toUpperCase() + response.firstName.slice(1);
                   const lastNameCapitalized = response.lastName.charAt(0).toUpperCase() + response.lastName.slice(1);
@@ -128,13 +129,14 @@ const employeeTracker = () => {
                     choices: employeeArray
                   },
                   {
-                    type:'list',
+                    type: 'list',
                     name: 'role',
                     message: 'What role would you like to assign to the employee?',
                     choices: results.map(obj => obj.title)
                   }
                 ])
                 .then(function (response) {
+
                   // Retrieves id of chosen employee and id of chosen role
                   const employeeId = idArray.filter(obj => obj.name === response.name).map(obj => obj.id);
                   const employeeChangedRoleId = results.filter(obj => obj.title === response.role).map(obj => obj.id);
@@ -154,8 +156,7 @@ const employeeTracker = () => {
                 })
                 .catch(err => { console.log(err) });
             });
-
-          })
+          });
           break;
 
         // Shows a table of all roles in employee_db on the console
