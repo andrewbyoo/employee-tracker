@@ -135,6 +135,10 @@ const employeeTracker = () => {
                   }
                 ])
                 .then(function (response) {
+
+                  // Converts chosen role to the corresponding id number
+                  const employeeChangedRoleId = results.filter(obj => obj.title === response.role).map(obj => obj.id);
+
                   return employeeTracker();
                 })
                 .catch(err => { console.log(err) });
