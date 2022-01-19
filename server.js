@@ -92,7 +92,7 @@ const employeeTracker = () => {
                   (response.managerName === 'None') ? managerId = null : managerId = idArray.filter(obj => obj.name === response.managerName).map(obj => obj.id);
 
                   // CRUD Insert to add new employee to the employee database and call back the general menu
-                  db.query(`INSERT INTO employees (first_name, last_name, role_id, manager_id) VALUES ('${firstNameCapitalized}', '${lastNameCapitalized}', ${newEmployeeRoleId}, ${managerId})`, function (err, results) {
+                  db.query(`INSERT INTO employees (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)`, [firstNameCapitalized, lastNameCapitalized, newEmployeeRoleId, managerId], function (err, results) {
 
                     // If any of the inputs failed, move user back to the general menu
                     if (err) {
@@ -111,14 +111,17 @@ const employeeTracker = () => {
 
         // TODO: write case
         case 'Update Employee Role':
-          inquirer
-            .prompt(
-              // Same as above, but for listing employee names and what role they can be assigned to
-            )
-            .then(function (response) {
-              return employeeTracker();
-            })
-            .catch(err => { console.log(err) });
+          db.query('SELECT employees.id, CONCAT(employees.first_name, " ", employees.last_name) AS name, roles.title FROM employees LEFT JOIN roles ON employees.role_id = roles.id ORDER BY id', function (err, results) {
+            console.log(results)
+            // inquirer
+            //   .prompt(
+            //     // Same as above, but for listing employee names and what role they can be assigned to
+            //   )
+            //   .then(function (response) {
+            //     return employeeTracker();
+            //   })
+            //   .catch(err => { console.log(err) });
+          })
           break;
         case 'View All Roles':
           db.query('SELECT roles.id, roles.title, departments.name AS department, roles.salary FROM roles JOIN departments ON roles.department_id = departments.id ORDER BY id', function (err, results) {
