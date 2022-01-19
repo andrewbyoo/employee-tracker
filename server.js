@@ -32,7 +32,7 @@ const employeeTracker = () => {
         case 'View All Employees':
 
           // SELF JOIN TEST CODE
-          db.query('SELECT emp.first_name, emp.last_name, mng.first_name AS managerf, mng.last_name AS managerl FROM employees emp LEFT JOIN employees mng ON emp.manager_id = mng.id', function (err, results) {
+          db.query('SELECT emp.first_name, emp.last_name, CONCAT(mng.first_name, " ",mng.last_name) AS manager FROM employees emp LEFT JOIN employees mng ON emp.manager_id = mng.id', function (err, results) {
             const table = cTable.getTable(results);
             console.log(table);
           })
