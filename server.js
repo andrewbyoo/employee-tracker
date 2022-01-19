@@ -32,31 +32,32 @@ const employeeTracker = () => {
           break;
         case 'Add Employee':
           db.query('SELECT id, first_name, last_name FROM employees', function (err, results) {
-            console.log(results.map(obj => obj.first_name + ' ' + obj.last_name))
+            const employeeArray = results.map(obj => obj.first_name + ' ' + obj.last_name);
+            const choicesArray = ['None'].concat(employeeArray);
 
-            // inquirer
-            //   .prompt([
-            //     {
-            //       type: 'input',
-            //       name: 'firstName',
-            //       message: `What is the employee's first name?`
-            //     },
-            //     {
-            //       type: 'input',
-            //       name: 'lastName',
-            //       message: `What is the employee's last name?`
-            //     },
-            //     {
-            //       type: 'list',
-            //       name: 'managerName',
-            //       message: `Who is the employee's manager?`,
-            //       choices: managerArray
-            //     }]
-            //   )
-            //   .then(function (response) {
-            //     return employeeTracker();
-            //   })
-            //   .catch(err => { console.log(err) });
+            inquirer
+              .prompt([
+                {
+                  type: 'input',
+                  name: 'firstName',
+                  message: `What is the employee's first name?`
+                },
+                {
+                  type: 'input',
+                  name: 'lastName',
+                  message: `What is the employee's last name?`
+                },
+                {
+                  type: 'list',
+                  name: 'managerName',
+                  message: `Who is the employee's manager?`,
+                  choices: choicesArray
+                }]
+              )
+              .then(function (response) {
+                return employeeTracker();
+              })
+              .catch(err => { console.log(err) });
           })
           break;
         case 'Update Employee Role':
