@@ -161,6 +161,24 @@ const employeeTracker = () => {
 
         // Updates who the employee reports to
         case 'Update Employee Manager':
+          db.query('SELECT id, CONCAT(first_name, " ", last_name) AS name FROM employees', function (err, results) {
+            const idArray = results;
+            const employeeArray = results.map(obj => obj.name);
+
+            inquirer
+              .prompt(
+                {
+                  type: 'list',
+                  name: 'employee',
+                  message: 'Which employee would you like to update?',
+                  choices: employeeArray
+                }
+              )
+              .then(function (response) {
+
+              })
+              .catch(err => { console.log(err) })
+          });
           break;
 
         // Shows a table of all roles in employee_db on the console
