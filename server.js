@@ -109,7 +109,7 @@ const employeeTracker = () => {
           });
           break;
 
-        // TODO: write case
+        // Updates the role id number on an employee
         case 'Update Employee Role':
 
           // Retrieves the full name of all existing employees
@@ -144,7 +144,7 @@ const employeeTracker = () => {
 
                     // If any of the inputs failed, move user back to the general menu
                     if (err) {
-                      console.error('\nA first and last name are both required to add a new employee. Please input the employee again.\n');
+                      console.error(err);
                       return employeeTracker();
                     };
 
@@ -157,6 +157,8 @@ const employeeTracker = () => {
 
           })
           break;
+
+        // Shows a table of all roles in employee_db on the console
         case 'View All Roles':
           db.query('SELECT roles.id, roles.title, departments.name AS department, roles.salary FROM roles JOIN departments ON roles.department_id = departments.id ORDER BY id', function (err, results) {
             const table = cTable.getTable(results);
@@ -181,6 +183,8 @@ const employeeTracker = () => {
             })
             .catch(err => { console.log(err) });
           break;
+
+        // Shows a table of all departments in employee_db on the console
         case 'View All Departments':
           db.query('SELECT * FROM departments ORDER BY id', function (err, results) {
             const table = cTable.getTable(results);
