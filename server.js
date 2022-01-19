@@ -41,7 +41,6 @@ const employeeTracker = () => {
           // Retrieves the full name of all existing employees
           db.query('SELECT id, first_name, last_name FROM employees', function (err, results) {
             const idArray = results.map(obj => { return { id: obj.id, name: obj.first_name + ' ' + obj.last_name }});
-            console.log(idArray)
             const employeeArray = results.map(obj => obj.first_name + ' ' + obj.last_name);
 
             // Retrieves all available roles
@@ -75,18 +74,23 @@ const employeeTracker = () => {
                   // Variables to capitalize the input and combine them into one variable containing the full name
                   const firstNameCapitalized = response.firstName.charAt(0).toUpperCase() + response.firstName.slice(1);
                   const lastNameCapitalized = response.lastName.charAt(0).toUpperCase() + response.lastName.slice(1);
-                  const newEmployeeName = firstNameCapitalized + ' ' + lastNameCapitalized;
 
                   // Converts chosen role to the corresponding id number
                   const newEmployeeRoleId = results.filter(obj => obj.title === response.role).map(obj => obj.id);
 
-                  console.log(idArray.name)
-                  console.log(response.managerName)
                   // Converts chosen manager to the corresponding id number
                   const managerId = idArray.filter(obj => obj.name === response.managerName).map(obj => obj.id);
-                  console.log(managerId)
 
-                  return employeeTracker();
+                  db.query(`INSERT INTO employees (first_name, last_name, role_id, manager_id) VALUES (${firstNameCapitalized}, ${lastNameCapitalized}, ${newEmployeeRoleId}, ${managerId})`, function (err, results) {
+                    // If any of the inputs failed, move user back to the general menu
+                    if (err) {
+                      console.error('\nA first and last name are both required to add a new employee. Please input the employee again.\n');
+                      return employeeTracker();
+                    };
+
+                    console.log(`${firstNameCapitalized} ${lastNameCapitalized} has been added to the employee database!`);
+                    return employeeTracker();
+                  })
                 })
                 .catch(err => { console.log(err) });
             })
