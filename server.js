@@ -184,9 +184,10 @@ const employeeTracker = () => {
                   message: 'What department will the new role be assigned to?',
                   choices: results.map(obj => obj.name)
                 }
-                // Same as above, but for listing what departments the role can be assigned to
               )
               .then(function (response) {
+                const newRoleCapitalized = response.newRole.split(' ').map(obj => obj[0].toUpperCase() + obj.substring(1)).join(' ');
+                console.log(newRoleCapitalized)
                 return employeeTracker();
               })
               .catch(err => { console.log(err) });
