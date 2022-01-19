@@ -32,13 +32,16 @@ const employeeTracker = () => {
         case 'View All Employees':
 
           // SELF JOIN TEST CODE
-          db.query('SELECT CONCAT(mng.first_name, " ", mng.last_name) AS manager FROM employees emp LEFT JOIN employees mng ON emp.manager_id = mng.id')
-
-          db.query('SELECT employees.id, employees.first_name, employees.last_name, roles.title, departments.name AS department, roles.salary FROM employees JOIN roles ON employees.role_id = roles.id JOIN departments ON roles.department_id = departments.id', function (err, results) {
+          db.query('SELECT emp.first_name, emp.last_name, mng.first_name AS managerf, mng.last_name AS managerl FROM employees emp LEFT JOIN employees mng ON emp.manager_id = mng.id', function (err, results) {
             const table = cTable.getTable(results);
             console.log(table);
-            return employeeTracker();
-          });
+          })
+
+          // db.query('SELECT employees.id, employees.first_name, employees.last_name, roles.title, departments.name AS department, roles.salary FROM employees JOIN roles ON employees.role_id = roles.id JOIN departments ON roles.department_id = departments.id', function (err, results) {
+          //   const table = cTable.getTable(results);
+          //   console.log(table);
+          //   return employeeTracker();
+          // });
           break;
 
         // Adds a new employee to the employees table in employee_db
