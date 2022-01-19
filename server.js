@@ -120,9 +120,20 @@ const employeeTracker = () => {
             // Retrieves all available roles
             db.query('SELECT id, title FROM roles', function (err, results) {
               inquirer
-                .prompt(
-                  // Same as above, but for listing employee names and what role they can be assigned to
-                )
+                .prompt([
+                  {
+                    type: 'list',
+                    name: 'names',
+                    message: 'Which employee would you like to change?',
+                    choices: employeeArray
+                  },
+                  {
+                    type:'list',
+                    name: 'role',
+                    message: 'What role would you like to assign to the employee?',
+                    choices: results.map(obj => obj.title)
+                  }
+                ])
                 .then(function (response) {
                   return employeeTracker();
                 })
