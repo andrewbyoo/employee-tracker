@@ -42,30 +42,34 @@ const employeeTracker = () => {
             .then(function (response) {
               switch (response.sort) {
                 case 'All':
-                  return `SELECT emp.id, emp.first_name, emp.last_name, roles.title, departments.name AS department, roles.salary, CONCAT(mng.first_name, " ",mng.last_name) AS manager
-                  FROM employees emp
-                  LEFT JOIN employees mng ON emp.manager_id = mng.id
-                  JOIN roles ON emp.role_id = roles.id
-                  JOIN departments ON roles.department_id = departments.id
-                  ORDER BY id`;
+                  return ['LEFT', 'id'];
                   break;
 
                 case 'By Manager':
+                  return ['RIGHT', 'manager'];
                   break;
 
                 case 'By Department':
+                  return ['LEFT', 'department'];
                   break;
               }
             })
             .then(function (response) {
-              db.query(response, function (err, results) {
+              console.log(response[0])
+              console.log(response[1])
+              const viewEmpQuery = `SELECT emp.id, emp.first_name, emp.last_name, roles.title, departments.name AS department, roles.salary, CONCAT(mng.first_name, " ",mng.last_name) AS manager
+              FROM employees emp ${response[0]} JOIN employees mng ON emp.manager_id = mng.id
+              JOIN roles ON emp.role_id = roles.id
+              JOIN departments ON roles.department_id = departments.id
+              ORDER BY ${response[1]}`;
+
+              db.query(viewEmpQuery, function (err, results) {
                 const table = cTable.getTable(results);
                 console.log(`\n\n${table}\n`);
                 return employeeTracker();
               });
             })
             .catch(err => { console.log(err) });
-
           break;
 
         // Adds a new employee
