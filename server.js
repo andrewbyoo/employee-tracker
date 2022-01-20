@@ -40,6 +40,8 @@ const employeeTracker = () => {
               }
             )
             .then(function (response) {
+
+              // Returns the join directions and sort order
               switch (response.sort) {
                 case 'All':
                   return ['LEFT', 'id'];
@@ -55,14 +57,15 @@ const employeeTracker = () => {
               }
             })
             .then(function (response) {
-              console.log(response[0])
-              console.log(response[1])
+
+              // Retrieves table data
               const viewEmpQuery = `SELECT emp.id, emp.first_name, emp.last_name, roles.title, departments.name AS department, roles.salary, CONCAT(mng.first_name, " ",mng.last_name) AS manager
               FROM employees emp ${response[0]} JOIN employees mng ON emp.manager_id = mng.id
               JOIN roles ON emp.role_id = roles.id
               JOIN departments ON roles.department_id = departments.id
               ORDER BY ${response[1]}`;
 
+              // Displays table according to user response
               db.query(viewEmpQuery, function (err, results) {
                 const table = cTable.getTable(results);
                 console.log(`\n\n${table}\n`);
