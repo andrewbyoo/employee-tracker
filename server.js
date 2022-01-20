@@ -340,6 +340,7 @@ const employeeTracker = () => {
             .catch(err => { console.log(err) });
           break;
 
+        // Deletes data from database by user prompts
         case 'Delete Data':
           inquirer
             .prompt(
@@ -352,6 +353,8 @@ const employeeTracker = () => {
             )
             .then(function (response) {
               switch (response.options) {
+
+                // Removes selected employee from the database
                 case 'Employee':
                   db.query('SELECT id, CONCAT(first_name, " ",last_name) AS name FROM employees', function (err, results) {
                     const idArray = results;
@@ -386,6 +389,27 @@ const employeeTracker = () => {
                   break;
 
                 case 'Role':
+                  db.query('SELECT id, title FROM roles', function (err, results) {
+                    const idArray = results;
+                    const rolesArray = results.map(obj => obj.title);
+
+                    inquirer
+                      .prompt(
+                        {
+                          type: 'list',
+                          name: 'role',
+                          message: 'Which role do you want to delete?',
+                          choices: rolesArray
+                        }
+                      )
+                      .then(function (response) {
+
+                        // Retrieves id of chosen employee
+                        const roleId = idArray.filter(obj => obj.title === response.role).map(obj => obj.id);
+
+                      })
+                      .catch(err => { console.log(err) });
+                  });
                   break;
 
                 case 'Department':
