@@ -22,42 +22,53 @@ const employeeTracker = () => {
         type: 'list',
         name: 'generalMenu',
         message: 'What would you like to do?',
-        choices: ['View All Employees', 'View Employees By Manager', 'Add Employee', 'Update Employee Role', 'Update Employee Manager', 'View All Roles', 'Add Role', 'View All Departments', 'Add Department']
+        choices: ['View Employees', 'Add Employee', 'Update Employee Role', 'Update Employee Manager', 'View All Roles', 'Add Role', 'View All Departments', 'Add Department']
       }
     )
     .then(function (response) {
       switch (response.generalMenu) {
 
         // Shows a table of all employees
-        case 'View All Employees':
-          const viewEmpQueryLEFT = `SELECT emp.id, emp.first_name, emp.last_name, roles.title, departments.name AS department, roles.salary, CONCAT(mng.first_name, " ",mng.last_name) AS manager
-          FROM employees emp
-          LEFT JOIN employees mng ON emp.manager_id = mng.id
-          JOIN roles ON emp.role_id = roles.id
-          JOIN departments ON roles.department_id = departments.id
-          ORDER BY id`;
+        case 'View Employees':
+          inquirer
+            .prompt(
+              {
+                type: 'list',
+                name: 'sort',
+                message: 'How would you like to view the employees?',
+                choices: ['All', 'By Manager', 'By Department']
+              }
+            )
+            .then(function (response) {
+              switch (response.sort) {
+                case 'All':
+                  return 'Hello World'
+                  break;
 
-          db.query(viewEmpQueryLEFT, function (err, results) {
-            const table = cTable.getTable(results);
-            console.log(`\n\n${table}\n`);
-            return employeeTracker();
-          });
-          break;
+                case 'By Manager':
+                  break;
 
-        // Shows a table of all employees who are under a manager
-        case 'View Employees By Manager':
-          const viewEmpQueryRIGHT = `SELECT emp.id, emp.first_name, emp.last_name, roles.title, departments.name AS department, roles.salary, CONCAT(mng.first_name, " ",mng.last_name) AS manager
-          FROM employees emp
-          RIGHT JOIN employees mng ON emp.manager_id = mng.id
-          JOIN roles ON emp.role_id = roles.id
-          JOIN departments ON roles.department_id = departments.id
-          ORDER BY manager`;
+                case 'By Department':
+                  break;
+              }
+            })
+            .then(function (response) {
+              console.log (response)
+            })
+            .catch(err => { console.log(err) });
 
-          db.query(viewEmpQueryRIGHT, function (err, results) {
-            const table = cTable.getTable(results);
-            console.log(`\n\n${table}\n`);
-            return employeeTracker();
-          });
+          // const viewEmpQuery = `SELECT emp.id, emp.first_name, emp.last_name, roles.title, departments.name AS department, roles.salary, CONCAT(mng.first_name, " ",mng.last_name) AS manager
+          // FROM employees emp
+          // LEFT JOIN employees mng ON emp.manager_id = mng.id
+          // JOIN roles ON emp.role_id = roles.id
+          // JOIN departments ON roles.department_id = departments.id
+          // ORDER BY id`;
+
+          // db.query(viewEmpQuery, function (err, results) {
+          //   const table = cTable.getTable(results);
+          //   console.log(`\n\n${table}\n`);
+          //   return employeeTracker();
+          // });
           break;
 
         // Adds a new employee
