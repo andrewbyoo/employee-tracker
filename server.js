@@ -413,7 +413,7 @@ const employeeTracker = () => {
                             return employeeTracker();
                           };
 
-                          console.log(`${response.role} has been deleted from the database!`);
+                          console.log(`The ${response.role} role has been deleted from the database!`);
                           return employeeTracker();
                         });
                       })
@@ -422,6 +422,36 @@ const employeeTracker = () => {
                   break;
 
                 case 'Department':
+                  db.query('SELECT * FROM departments', function (err, results) {
+                    const idArray = results;
+                    const departmentsArray = results.map(obj => obj.name);
+
+                    inquirer
+                      .prompt(
+                        {
+                          type: 'list',
+                          name: 'departments',
+                          message: 'Which role do you want to delete?',
+                          choices: departmentsArray
+                        }
+                      )
+                      .then(function (response) {
+
+                        // Retrieves id of chosen employee
+                        const departmentId = idArray.filter(obj => obj.name === response.departments).map(obj => obj.id);
+
+                        db.query('DELETE FROM departments WHERE id = ?', departmentId, function (err, results) {
+                          if (err) {
+                            console.error(err);
+                            return employeeTracker();
+                          };
+
+                          console.log(`The ${response.departments} department has been deleted from the database!`);
+                          return employeeTracker();
+                        });
+                      })
+                      .catch(err => { console.log(err) });
+                  });
                   break;
               }
             })
