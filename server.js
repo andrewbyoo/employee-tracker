@@ -22,7 +22,7 @@ const employeeTracker = () => {
         type: 'list',
         name: 'generalMenu',
         message: 'What would you like to do?',
-        choices: ['View Employees', 'Add Employee', 'Update Employee Role', 'Update Employee Manager', 'View All Roles', 'Add Role', 'View All Departments', 'Add Department']
+        choices: ['View Employees', 'Add Employee', 'Update Employee Role', 'Update Employee Manager', 'View All Roles', 'Add Role', 'View All Departments', 'Add Department', 'Delete Data']
       }
     )
     .then(function (response) {
@@ -336,6 +336,61 @@ const employeeTracker = () => {
               db.query(`INSERT INTO departments (name) VALUES (?)`, department);
               console.log(`\nThe ${department} department has been added to the employee database!\n`)
               return employeeTracker();
+            })
+            .catch(err => { console.log(err) });
+          break;
+
+        case 'Delete Data':
+          inquirer
+            .prompt(
+              {
+                type: 'list',
+                name: 'options',
+                message: 'Which data-point would you like to delete?',
+                choices: ['Employee', 'Role', 'Department']
+              }
+            )
+            .then(function (response) {
+              switch (response.options) {
+                case 'Employee':
+                  db.query('SELECT id, CONCAT(first_name, " ",last_name) AS name FROM employees', function (err, results) {
+                    const idArray = results;
+                    const employeeArray = results.map(obj => obj.name);
+
+                    inquirer
+                      .prompt(
+                        {
+                          type: 'list',
+                          name: 'employee',
+                          message: 'Which employee do you want to delete?',
+                          choices: employeeArray
+                        }
+                      )
+                      .then(function (response) {
+
+                        // Retrieves id of chosen employee
+                        const employeeId = idArray.filter(obj => obj.name === response.employee).map(obj => obj.id);
+
+                        db.query('DELETE FROM employees WHERE id = ?', employeeId, function (err, results) {
+                          if (err) {
+                            console.error(err);
+                            return employeeTracker();
+                          };
+
+                          console.log(`${response.employee} has been deleted from the database!`);
+                          return employeeTracker();
+                        });
+                      })
+                      .catch(err => { console.log(err) });
+                  });
+                  break;
+
+                case 'Role':
+                  break;
+
+                case 'Department':
+                  break;
+              }
             })
             .catch(err => { console.log(err) });
           break;
