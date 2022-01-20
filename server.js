@@ -22,13 +22,13 @@ const employeeTracker = () => {
         type: 'list',
         name: 'generalMenu',
         message: 'What would you like to do?',
-        choices: ['View All Employees', 'Add Employee', 'Update Employee Role', 'Update Employee Manager', 'View All Roles', 'Add Role', 'View All Departments', 'Add Department']
+        choices: ['View All Employees', 'View Employees By Manager', 'Add Employee', 'Update Employee Role', 'Update Employee Manager', 'View All Roles', 'Add Role', 'View All Departments', 'Add Department']
       }
     )
     .then(function (response) {
       switch (response.generalMenu) {
 
-        // Shows a table of all employees in employee_db on the console
+        // Shows a table of all employees
         case 'View All Employees':
           const viewEmpQuery = `SELECT emp.id, emp.first_name, emp.last_name, roles.title, departments.name AS department, roles.salary, CONCAT(mng.first_name, " ",mng.last_name) AS manager
           FROM employees emp
@@ -44,7 +44,11 @@ const employeeTracker = () => {
           });
           break;
 
-        // Adds a new employee to the employees table in employee_db
+        // Shows a table of all employees who are under a manager
+        case 'View Employees By Manager':
+          break;
+
+        // Adds a new employee
         case 'Add Employee':
 
           // Retrieves the full name of all existing employees
@@ -216,7 +220,7 @@ const employeeTracker = () => {
           });
           break;
 
-        // Shows a table of all roles in employee_db on the console
+        // Shows a table of all roles
         case 'View All Roles':
           db.query('SELECT roles.id, roles.title, departments.name AS department, roles.salary FROM roles JOIN departments ON roles.department_id = departments.id ORDER BY id', function (err, results) {
             const table = cTable.getTable(results);
@@ -225,7 +229,7 @@ const employeeTracker = () => {
           });
           break;
 
-        // Adds a new role to the roles table in employee_db
+        // Adds a new role
         case 'Add Role':
           db.query('SELECT * FROM departments', function (err, results) {
             inquirer
@@ -275,7 +279,7 @@ const employeeTracker = () => {
           });
           break;
 
-        // Shows a table of all departments in employee_db on the console
+        // Shows a table of all departments
         case 'View All Departments':
           db.query('SELECT * FROM departments ORDER BY id', function (err, results) {
             const table = cTable.getTable(results);
@@ -284,7 +288,7 @@ const employeeTracker = () => {
           });
           break;
 
-        // Adds a new department to the departments table in employee_db
+        // Adds a new department
         case 'Add Department':
           inquirer
             .prompt(
