@@ -407,6 +407,15 @@ const employeeTracker = () => {
                         // Retrieves id of chosen employee
                         const roleId = idArray.filter(obj => obj.title === response.role).map(obj => obj.id);
 
+                        db.query('DELETE FROM roles WHERE id = ?', roleId, function (err, results) {
+                          if (err) {
+                            console.error(err);
+                            return employeeTracker();
+                          };
+
+                          console.log(`${response.role} has been deleted from the database!`);
+                          return employeeTracker();
+                        });
                       })
                       .catch(err => { console.log(err) });
                   });
